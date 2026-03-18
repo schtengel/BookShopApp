@@ -86,7 +86,7 @@
                                 <Border Grid.Column="0"
                                         BorderBrush="Black"
                                         BorderThickness="1">
-                                    <Image Width="100" Height="100" Margin="4"
+                                    <Image Width="100" Margin="4"
                                            Source="{Binding PhotoPath}"
                                            Stretch="Uniform"/>
                                 </Border>

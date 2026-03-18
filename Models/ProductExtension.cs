@@ -15,6 +15,6 @@ namespace BookShopApp.Models
 
         public bool IsHigherThan15 => Sale.HasValue && Sale.Value > 17; // Возращает превышает ли скидка 15%
 
-        public string PhotoPath => Photo.IsNullOrEmpty() ? "/Images/picture.png" : $"/Images/{Photo}"; // Вычисляемое поле пути к фотографиям
+        public string PhotoPath => Photo.IsNullOrEmpty() ? "/Images/picture.png" : $"/images/{Photo}"; // Вычисляемое поле пути к фотографиям
     }
 }
