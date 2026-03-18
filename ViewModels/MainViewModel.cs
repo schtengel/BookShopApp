@@ -45,6 +45,22 @@ namespace BookShopApp.ViewModels
         private void OrderOpen()
         {
             new OrderWindow(new MainViewModel(User)).Show();
+
+            Application.Current.Windows
+                .OfType<MainWindow>()
+                .First()
+                .Close();
+        }
+
+        [RelayCommand]
+        private void Back()
+        {
+            new MainWindow(new MainViewModel(User)).Show();
+
+            Application.Current.Windows
+                .OfType<OrderWindow>()
+                .First()
+                .Close();
         }
     }
 }

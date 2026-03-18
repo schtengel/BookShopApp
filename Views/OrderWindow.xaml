@@ -3,10 +3,90 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BookShopApp.Views"
         mc:Ignorable="d"
-        Title="OrderWindow" Height="450" Width="800">
+        Icon="/Images/icon.ico"
+        WindowStartupLocation="CenterScreen"
+        Title="Заказы" Height="600" Width="1000">
+
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя панель -->
+        <StackPanel Orientation="Horizontal" Margin="8">
+            <Image Source="/Images/icon.png" Margin="0 0 8 0"/>
+            <TextBlock VerticalAlignment="Center"
+                       Margin="0 0 8 0">Заказы |</TextBlock>
+
+            <Button Content="Назад"
+                    Padding="8"
+                    Command="{Binding BackCommand}"/>
+        </StackPanel>
+
+        <!-- Пользователь -->
+        <StackPanel Orientation="Horizontal"
+                    Margin="8"
+                    HorizontalAlignment="Right">
+            <TextBlock Text="{Binding User.UserName}"
+                       VerticalAlignment="Center"/>
+            <Button Content="Выйти"
+                    Command="{Binding LogoutCommand}"
+                    Padding="12 0"
+                    Margin="8 4"/>
+        </StackPanel>
+
+        <!-- Список заказов -->
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding Orders}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="5"
+                                Padding="10"
+                                BorderBrush="Black"
+                                BorderThickness="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="150"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Основная инфа -->
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Fio,
+                                        StringFormat='Клиент: {0}'}"
+                                               FontWeight="Bold"/>
+
+                                    <TextBlock Text="{Binding DataZakaz,
+                                        StringFormat='Дата заказа: {0:dd.MM.yyyy}'}"/>
+
+                                    <TextBlock Text="{Binding DataDeliver,
+                                        StringFormat='Дата доставки: {0:dd.MM.yyyy}'}"/>
+
+                                    <TextBlock Text="{Binding Address,
+                                        StringFormat='ПВЗ: {0}'}"/>
+
+                                    <TextBlock Text="{Binding Code,
+                                        StringFormat='Код получения: {0}'}"/>
+                                </StackPanel>
+
+                                <!-- Статус -->
+                                <Border Grid.Column="1"
+                                        BorderBrush="Black"
+                                        BorderThickness="1"
+                                        Margin="8 0 0 0">
+                                    <TextBlock Text="{Binding Status}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="16"
+                                               TextWrapping="Wrap"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </Window>
