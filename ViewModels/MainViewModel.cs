@@ -33,9 +33,10 @@ namespace BookShopApp.ViewModels
         [RelayCommand]
         private static void Logout()
         {
+            MessageBox.Show("Вы вышли из учетной записи.", "Выход", MessageBoxButton.OK, MessageBoxImage.Information);
             new LoginWindow().Show();
 
-            Application.Current.Windows // Закрывает первое текущее окно товаров
+            Application.Current.Windows
                 .OfType<MainWindow>()
                 .First()
                 .Close();
@@ -44,6 +45,7 @@ namespace BookShopApp.ViewModels
         [RelayCommand]
         private void OrderOpen()
         {
+            MessageBox.Show("Открыт список заказов.", "Заказы", MessageBoxButton.OK, MessageBoxImage.Information);
             new OrderWindow(new MainViewModel(User)).Show();
 
             Application.Current.Windows
@@ -61,6 +63,58 @@ namespace BookShopApp.ViewModels
                 .OfType<OrderWindow>()
                 .First()
                 .Close();
+        }
+
+        // Команда добавления товара
+        [RelayCommand]
+        private void AddProduct()
+        {
+            // Пример: создаём пустой объект для заполнения (можно заменить на отдельное окно или форму)
+            var newProduct = new Product
+            {
+                Title = "Новый товар",
+                Price = 0,
+                Count = 0
+            };
+
+            // Проверка обязательных полей
+            if (string.IsNullOrWhiteSpace(newProduct.Title) || newProduct.Price <= 0)
+            {
+                MessageBox.Show("Пожалуйста, заполните все обязательные поля: название и цену товара.",
+                                "Ошибка добавления", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            Db.Context.Products.Add(newProduct);
+            Db.Context.SaveChanges();
+            Products.Add(newProduct);
+
+            MessageBox.Show($"Товар '{newProduct.Title}' успешно добавлен.",
+                            "Добавление товара", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        // Команда удаления товара
+        [RelayCommand]
+        private void DeleteProduct(Product? selectedProduct)
+        {
+            if (selectedProduct == null)
+            {
+                MessageBox.Show("Выберите товар для удаления.",
+                                "Ошибка удаления", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var result = MessageBox.Show($"Вы уверены, что хотите удалить товар '{selectedProduct.Title}'?",
+                                         "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                Db.Context.Products.Remove(selectedProduct);
+                Db.Context.SaveChanges();
+                Products.Remove(selectedProduct);
+
+                MessageBox.Show($"Товар '{selectedProduct.Title}' удалён.",
+                                "Удаление товара", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

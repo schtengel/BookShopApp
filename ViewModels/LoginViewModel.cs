@@ -22,24 +22,32 @@ namespace shoesAppClone.ViewModels
         }
 
 
-        [RelayCommand] // Автоматический создает команду для реализации этого метода
+        [RelayCommand]
         private void LoginUser()
         {
+            if (string.IsNullOrWhiteSpace(Login) || string.IsNullOrWhiteSpace(Password))
+            {
+                MessageBox.Show("Пожалуйста, заполните все поля для входа", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             var user = Db.Context.Users
                 .FirstOrDefault(u => u.Login == Login && u.Password == Password);
 
             if (user == null)
             {
-                MessageBox.Show("Неверный пароль");
+                MessageBox.Show("Неверный логин или пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
+            MessageBox.Show($"Добро пожаловать, {user.Fio}!", "Успешный вход", MessageBoxButton.OK, MessageBoxImage.Information);
             OpenProductWindow(user);
         }
 
         [RelayCommand]
         private static void EnterGuest()
         {
+            MessageBox.Show("Вы вошли как гость. Доступ к управлению товарами ограничен.", "Вход как гость", MessageBoxButton.OK, MessageBoxImage.Information);
             OpenProductWindow(null);
         }
 

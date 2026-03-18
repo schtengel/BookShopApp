@@ -15,20 +15,48 @@
         </Grid.RowDefinitions>
 
         <!-- Верхняя панель -->
-        <StackPanel Orientation="Horizontal" Margin="8">
+        <StackPanel Orientation="Horizontal" Margin="8 0">
             <Image Source="/Images/icon.png" Margin="0 0 8 0"/>
             <TextBlock VerticalAlignment="Center"
                        Margin="0 0 8 0">Заказы |</TextBlock>
 
             <Button Content="Назад"
-                    Padding="8"
+                    Padding="8 0"
+                    Margin="0 8"
                     Command="{Binding BackCommand}"/>
+            <StackPanel Orientation="Horizontal" Margin="8">
+                <Image Source="/Images/icon.png"
+           Margin="0 0 8 0"/>
+                <TextBlock VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Margin="0 0 8 0">Магазин книг |</TextBlock>
+                <Button Name="Text1"
+            Padding="8">Добавить</Button>
+                <Button Name="Text2"
+            Padding="8">Удалить</Button>
+                <TextBlock
+        Margin="0 0 8 0"
+        HorizontalAlignment="Center"
+        Name="Text3"
+        VerticalAlignment="Center">Сортировать:</TextBlock>
+                <ComboBox Width="100"
+              Name="Combo1"/>
+                <TextBox Width="150"
+             Name="Text4"
+             Text="Поиск..."
+             Foreground="Gray"
+             VerticalAlignment="Center"
+             Height="32"
+             Margin="8 0"/>
+            </StackPanel>
         </StackPanel>
+        
 
         <!-- Пользователь -->
         <StackPanel Orientation="Horizontal"
                     Margin="8"
                     HorizontalAlignment="Right">
+            
             <TextBlock Text="{Binding User.UserName}"
                        VerticalAlignment="Center"/>
             <Button Content="Выйти"
